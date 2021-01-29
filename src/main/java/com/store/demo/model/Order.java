@@ -2,12 +2,10 @@ package com.store.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.TypeDef;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
@@ -25,7 +23,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "store_orders")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderProducts")
-@TypeDef(name = "list-array", typeClass = ListArrayType.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

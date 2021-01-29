@@ -23,7 +23,6 @@ dependencies {
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.apache.tomcat:tomcat-jdbc'
 	implementation("org.flywaydb:flyway-core")
-	implementation("com.vladmihalcea:hibernate-types-4:2.9.13")
 
 	compileOnly("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")
