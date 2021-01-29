@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: store-demo
+---
+spring:
+  profiles: default
+
+spring.profiles.active: dev

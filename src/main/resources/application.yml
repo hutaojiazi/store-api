@@ -1,0 +1,28 @@
+spring:
+  profiles.active: dev
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  jackson:
+    default-property-inclusion: non_null
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    serialization:
+      indent_output: true
+      write_dates_as_timestamps: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    tomcat:
+      db-properties:
+        currentSchema: store
+        stringtype: unspecified
+
+server.port: 8099
