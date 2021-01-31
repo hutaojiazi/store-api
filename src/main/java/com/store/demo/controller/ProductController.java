@@ -34,7 +34,7 @@ public class ProductController extends AbstractController
 		this.productService = productService;
 	}
 
-	@GetMapping(value = { "", "/" })
+	@GetMapping
 	public HttpEntity<PageableCollection<Product>> getProducts(@PageableDefault(size = 20) Pageable pageable)
 	{
 		final Page<Product> products = productService.getAll(pageable);
