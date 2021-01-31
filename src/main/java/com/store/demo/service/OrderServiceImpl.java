@@ -12,9 +12,9 @@ import java.time.OffsetDateTime;
 public class OrderServiceImpl implements OrderService
 {
 
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 
-	public OrderServiceImpl(OrderRepository orderRepository)
+	public OrderServiceImpl(final OrderRepository orderRepository)
 	{
 		this.orderRepository = orderRepository;
 	}
@@ -26,16 +26,15 @@ public class OrderServiceImpl implements OrderService
 	}
 
 	@Override
-	public Order create(Order order)
+	public Order create(final Order order)
 	{
 		order.setCreatedAt(OffsetDateTime.now());
-
-		return this.orderRepository.save(order);
+		return orderRepository.save(order);
 	}
 
 	@Override
-	public void update(Order order)
+	public void update(final Order order)
 	{
-		this.orderRepository.save(order);
+		orderRepository.save(order);
 	}
 }
