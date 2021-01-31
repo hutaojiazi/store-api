@@ -2,11 +2,11 @@ package com.store.demo.controller;
 
 import com.store.demo.dto.OrderProductDto;
 import com.store.demo.dto.OrderRequestDto;
+import com.store.demo.dto.ResourceIdDto;
 import com.store.demo.exception.ResourceNotFoundException;
 import com.store.demo.model.Order;
 import com.store.demo.model.OrderProduct;
 import com.store.demo.model.OrderStatus;
-import com.store.demo.service.OrderProductService;
 import com.store.demo.service.OrderService;
 import com.store.demo.service.ProductService;
 import org.springframework.http.HttpEntity;
@@ -30,54 +30,25 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/orders")
 public class OrderController extends AbstractController
 {
-	private final ProductService productService;
 	private final OrderService orderService;
-	private final OrderProductService orderProductService;
 
-	public OrderController(final ProductService productService, final OrderService orderService,
-			final OrderProductService orderProductService)
+	public OrderController(final OrderService orderService)
 	{
-		this.productService = productService;
 		this.orderService = orderService;
-		this.orderProductService = orderProductService;
 	}
 
 	@GetMapping
 	public HttpEntity<Iterable<Order>> getAll()
 	{
-		return ResponseEntity.ok(orderService.getAllOrders());
+		return ResponseEntity.ok(orderService.getAll());
 	}
 
 	@PostMapping
-	public ResponseEntity<Order> create(@RequestBody @Valid final OrderRequestDto form)
+	public ResponseEntity<ResourceIdDto> create(@RequestBody @Valid final OrderRequestDto requestDto)
 	{
-		final List<OrderProductDto> formDtos = form.getProductOrders();
-		validateProductsExistence(formDtos);
-
-		final Order order = Order.builder().id(UUID.randomUUID().toString()).status(OrderStatus.PAID.name()).build();
-		final Order savedOrder = orderService.create(order);
-
-		final List<OrderProduct> orderProducts = formDtos.stream().map(dto -> {
-			final OrderProduct orderProduct = new OrderProduct(savedOrder, productService.getProduct(dto.getProduct().getId()),
-					dto.getQuantity());
-			return orderProductService.create(orderProduct);
-		}).collect(Collectors.toList());
-
-		savedOrder.setOrderProducts(orderProducts);
-		orderService.update(savedOrder);
-
-		return ResponseEntity.created(buildLocationHeader(savedOrder.getId())).body(savedOrder);
+		final String id = orderService.create(requestDto);
+		return ResponseEntity.created(buildLocationHeader(id)).body(ResourceIdDto.of(id));
 	}
 
-	private void validateProductsExistence(final List<OrderProductDto> orderProducts)
-	{
-		final List<OrderProductDto> list = orderProducts.stream()
-				.filter(op -> Objects.isNull(productService.getProduct(op.getProduct().getId())))
-				.collect(Collectors.toList());
 
-		if (!CollectionUtils.isEmpty(list))
-		{
-			new ResourceNotFoundException("Product not found");
-		}
-	}
 }

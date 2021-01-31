@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -15,5 +16,5 @@ import java.util.List;
 public class OrderRequestDto
 {
 	@NotEmpty
-	private List<OrderProductDto> productOrders;
+	private List<@Valid OrderProductDto> productOrders;
 }
