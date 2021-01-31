@@ -1,14 +1,15 @@
 package com.store.demo.service;
 
-import com.store.demo.exception.ResourceNotFoundException;
 import com.store.demo.model.Product;
 import com.store.demo.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class ProductServiceImpl implements ProductService
 {
 
@@ -20,20 +21,23 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
-	public Iterable<Product> getAllProducts()
+	@Transactional(readOnly = true)
+	public Page<Product> getAll(final Pageable pageable)
 	{
-		return productRepository.findAll();
+		return productRepository.findAll(pageable);
 	}
 
 	@Override
-	public Product getProduct(String id)
+	@Transactional(readOnly = true)
+	public Optional<Product> get(String id)
 	{
-		return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+		return productRepository.findById(id);
 	}
 
 	@Override
-	public Product save(Product product)
+	@Transactional
+	public String create(Product product)
 	{
-		return productRepository.save(product);
+		return productRepository.save(product).getId();
 	}
 }

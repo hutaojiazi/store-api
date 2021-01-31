@@ -1,8 +1,8 @@
 package com.store.demo.repository;
 
 import com.store.demo.model.Product;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ProductRepository extends CrudRepository<Product, String>
+public interface ProductRepository extends PagingAndSortingRepository<Product, String>
 {
 }

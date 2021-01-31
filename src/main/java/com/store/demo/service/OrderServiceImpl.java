@@ -8,6 +8,8 @@ import com.store.demo.model.OrderProduct;
 import com.store.demo.model.OrderStatus;
 import com.store.demo.repository.OrderProductRepository;
 import com.store.demo.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -15,11 +17,11 @@ import org.springframework.util.CollectionUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderService
 {
 	private final ProductService productService;
@@ -35,12 +37,21 @@ public class OrderServiceImpl implements OrderService
 	}
 
 	@Override
-	public Iterable<Order> getAll()
+	@Transactional(readOnly = true)
+	public Page<Order> getAll(final Pageable pageable)
 	{
-		return orderRepository.findAll();
+		return orderRepository.findAll(pageable);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public Optional<Order> get(String id)
+	{
+		return orderRepository.findById(id);
+	}
+
+	@Override
+	@Transactional
 	public String create(final OrderRequestDto requestDto)
 	{
 		final List<OrderProductDto> productOrders = requestDto.getProductOrders();
@@ -54,7 +65,7 @@ public class OrderServiceImpl implements OrderService
 		final Order savedOrder = orderRepository.save(order);
 
 		final List<OrderProduct> orderProducts = productOrders.stream().map(dto -> {
-			final OrderProduct orderProduct = new OrderProduct(savedOrder, productService.getProduct(dto.getProduct().getId()),
+			final OrderProduct orderProduct = new OrderProduct(savedOrder, productService.get(dto.getProduct().getId()).get(),
 					dto.getQuantity());
 			return orderProductRepository.save(orderProduct);
 		}).collect(Collectors.toList());
@@ -68,7 +79,7 @@ public class OrderServiceImpl implements OrderService
 	private void validateProductsExistence(final List<OrderProductDto> orderProducts)
 	{
 		final List<OrderProductDto> list = orderProducts.stream()
-				.filter(op -> Objects.isNull(productService.getProduct(op.getProduct().getId())))
+				.filter(op -> Objects.isNull(productService.get(op.getProduct().getId())))
 				.collect(Collectors.toList());
 
 		if (!CollectionUtils.isEmpty(list))
