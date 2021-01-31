@@ -26,4 +26,6 @@ spring:
         currentSchema: store
         stringtype: unspecified
 
+  flyway.schemas: store_demo
+
 server.port: 8099
