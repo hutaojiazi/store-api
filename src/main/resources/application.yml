@@ -23,7 +23,7 @@ spring:
     password: postgres
     tomcat:
       db-properties:
-        currentSchema: store
+        currentSchema: store_demo
         stringtype: unspecified
 
   flyway.schemas: store_demo
