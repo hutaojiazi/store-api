@@ -1,11 +1,10 @@
 ## Gradle
 
-The './gradlew' can be changed for 'gradle' if installed and available in the PATH,
-just be aware of using the same version as the gradle wrapper 
+The './gradlew' can be changed for 'gradle' if gradle is installed and available in the PATH.
     
     ./gradlew build
     
-Execute the spring boot application
+Start the spring boot application
 
     ./gradlew bootRun
 
