@@ -29,3 +29,6 @@ spring:
   flyway.schemas: store_demo
 
 server.port: 8099
+
+es:
+  host: localhost:9200

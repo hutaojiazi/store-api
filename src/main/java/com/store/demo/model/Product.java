@@ -24,6 +24,7 @@ import java.util.UUID;
 public class Product
 {
 	@Id
+	@Builder.Default
 	private String id = UUID.randomUUID().toString();
 
 	@NotNull(message = "Product name is required.")

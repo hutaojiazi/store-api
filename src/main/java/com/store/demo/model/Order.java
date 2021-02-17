@@ -30,6 +30,7 @@ import java.util.UUID;
 public class Order
 {
 	@Id
+	@Builder.Default
 	private String id = UUID.randomUUID().toString();
 
 	@Column(name = "status")
@@ -41,6 +42,7 @@ public class Order
 
 	@OneToMany(mappedBy = "pk.order")
 	@Valid
+	@Builder.Default
 	private List<OrderProduct> orderProducts = new ArrayList<>();
 
 	@Transient
