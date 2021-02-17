@@ -27,7 +27,7 @@ public class ProductDocument
 	private String id;
 
 	@MultiField(mainField = @Field(type = Text, fielddata = true), otherFields = { @InnerField(suffix = "verbatim", type = Keyword) })
-	private String title;
+	private String name;
 
 	@Field(type = Nested, includeInParent = true)
 	private List<Attribute> attributes;
