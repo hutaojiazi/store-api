@@ -6,11 +6,42 @@
 # docker-compose down --volumes --remove-orphans
 
 # requires docker engine 17.06.0+
-version: '3.3'
+version: '3.7'
 services:
   postgres:
-    image: postgres:9.6.4
+    image: postgres:12.6
     ports:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch01
+      - cluster.name=es-docker-cluster
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elasticsearch-data:
+    driver: local
