@@ -25,9 +25,11 @@ dependencies {
 
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.apache.tomcat:tomcat-jdbc'
-	implementation("org.flywaydb:flyway-core")
-	implementation("org.locationtech.jts:jts-core:1.18.0")
-	implementation("org.locationtech.spatial4j:spatial4j:0.8")
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.locationtech.jts:jts-core:1.18.0'
+	implementation 'org.locationtech.spatial4j:spatial4j:0.8'
+
+	implementation 'org.springdoc:springdoc-openapi-ui:1.5.4'
 
 	compileOnly("org.projectlombok:lombok")
 	testCompileOnly("org.projectlombok:lombok")

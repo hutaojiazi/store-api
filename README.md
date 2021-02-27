@@ -1,5 +1,9 @@
 Spring boot + Postgres + Flyway
 
+## Swagger
+
+http://localhost:8080/swagger-ui.html
+
 ## Gradle
 
 The './gradlew' can be changed for 'gradle' if gradle is installed and available in the PATH.
