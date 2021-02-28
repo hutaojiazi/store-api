@@ -2,7 +2,7 @@ Spring boot + Postgres + Flyway
 
 ## Swagger
 
-http://localhost:8080/swagger-ui.html
+http://localhost:8099/swagger-ui.html
 
 ## Gradle
 
