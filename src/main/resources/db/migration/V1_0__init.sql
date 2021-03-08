@@ -14,6 +14,7 @@ CREATE TABLE store_products
 (
     id               character varying(255)   NOT NULL,
     name             character varying(64)   NOT NULL,
+    description      character varying(1024)   NOT NULL,
     price            numeric(16,6),
     url              character varying(255)
 );
